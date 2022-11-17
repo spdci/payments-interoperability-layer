@@ -1,14 +1,12 @@
 openapi: 3.0.2
 info:
-  title: Payments Interoperability Layer
+  title: API Specification - Payments Interoperability Layer
   version: '0.1'
   description: >-
     An API to perform a disbursements through various payment execution systems
   license:
-    name: TBD
-    url: TBD
-servers:
-  - url: /
+    name: Apache License v2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
 paths:
   /health:
     get:
@@ -203,7 +201,7 @@ components:
           items:
             $ref: '#/components/schemas/IndividualPayeeCheck'
       description: Data model for Disbursement Request
-      example: |-
+      example:
         {
           "disbursementId": "f2957f7a-34c3-11ed-a261-0242ac120002",
           "note": "PENSION",
@@ -238,7 +236,7 @@ components:
           items:
             $ref: '#/components/schemas/IndividualPayee'
       description: Data model for Disbursement Request
-      example: |-
+      example:
         {
           "disbursementId": "f2957f7a-34c3-11ed-a261-0242ac120002",
           "note": "PENSION",

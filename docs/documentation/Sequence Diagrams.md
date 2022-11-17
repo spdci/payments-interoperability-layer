@@ -1,5 +1,97 @@
 # Sequence Diagrams
 
-## Assigning roles and participant access to users
-This functionality is implemented in the Roles API service. The following sequence diagram describes how the user role and user participation access is queried and modified through the Roles API. 
-![Sequence diagram illustrating how roles and participant access is assigned to users](../.vuepress/public/frontend.png) 
+## G2P payment through mojaloop switch
+
+@startuml
+
+'!include plantuml-ae.iuml
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam SequenceBoxBackgroundColor AliceBlue
+skinparam ActorBorderColor    SaddleBrown
+
+
+actor User #SaddleBrown
+
+participant "RequestParser" as A #white
+participant "TaskBundler" as B #white
+
+box "Magic happens here"
+participant "TaskExecutor" as C << (C,#ADD1B2) Testable >>
+end box
+
+User -> A: DoWork
+activate A
+
+A -> B: Create Request
+activate B #violet
+
+create C
+B -> C: DoWork
+activate C #PapayaWhip
+C --> B: WorkDone
+destroy C
+
+B --> A: Request Created
+deactivate B
+
+A --> User: Done
+deactivate A
+
+'!include ../../plantuml-styles/ae-copyright-footer.txt
+@enduml
+
+<br/>
+
+## Thridparty transfer in mojaloop out of a fhir invoice
+
+@startuml
+
+'!include plantuml-ae.iuml
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam SequenceBoxBackgroundColor AliceBlue
+skinparam ActorBorderColor    SaddleBrown
+
+
+actor User #SaddleBrown
+
+participant "RequestParser" as A #white
+participant "TaskBundler" as B #white
+
+box "Magic happens here"
+participant "TaskExecutor" as C << (C,#ADD1B2) Testable >>
+end box
+
+User -> A: DoWork
+activate A
+
+A -> B: Create Request
+activate B #violet
+
+create C
+B -> C: DoWork
+activate C #PapayaWhip
+C --> B: WorkDone
+destroy C
+
+B --> A: Request Created
+deactivate B
+
+A --> User: Done
+deactivate A
+
+'!include ../../plantuml-styles/ae-copyright-footer.txt
+@enduml

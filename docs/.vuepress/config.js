@@ -49,6 +49,7 @@ module.exports = {
         rowspan:    true,
         headerless: true,
       })
+      md.use(require('markdown-it-plantuml'));   // required by PalmUML
     }
   },
 
@@ -89,6 +90,7 @@ module.exports = {
             'Architecture Diagrams',
             'Sequence Diagrams',
             'API Specification',
+            'Data Standards and Code Directories',
             'PoCs'
           ]
         }
