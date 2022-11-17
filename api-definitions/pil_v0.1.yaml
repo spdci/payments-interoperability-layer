@@ -277,7 +277,7 @@ components:
       description: Data model for Disbursement Response
   
     DisbursementCheckResponse:
-      title: DisbursementResponse
+      title: DisbursementCheckResponse
       type: object
       required:
         - requestId
@@ -527,7 +527,7 @@ components:
               example: 2012-04-23T18:25:43.511Z
             status: 
               type: string
-              description: Status of the payment, ex- SUCCESS, FAILED, ERROR_DESTINATION_FSP_UNREACHABLE.
+              description: Status of the payment.
               enum:
               - RECEIVED
               - PENDING
