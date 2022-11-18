@@ -13,5 +13,5 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         TARGET_REPO: sp-convergence/payments-interoperability-layer
         TARGET_BRANCH: gh_pages
-        BUILD_SCRIPT: cd docs; npm install && npm run build
-        BUILD_DIR: docs/.vuepress/dist/
+        BUILD_SCRIPT: cd docs && npm install && npm run build
+        BUILD_DIR: .vuepress/dist/
