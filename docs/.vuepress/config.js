@@ -91,7 +91,6 @@ module.exports = {
             'Sequence Diagrams',
             { 
               title: 'Version 0.1',
-              path: 'v0.1',
               collapsable: false,
               children: [
                 {
