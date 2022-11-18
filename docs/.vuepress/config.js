@@ -89,8 +89,25 @@ module.exports = {
             '',
             'Architecture Diagrams',
             'Sequence Diagrams',
-            'API Specification',
-            'Data Standards and Code Directories',
+            { 
+              title: 'Version 0.1',
+              path: 'v0.1',
+              collapsable: false,
+              children: [
+                {
+                  title: 'API Specification',
+                  path: 'v0.1/API Specification'
+                },
+                {
+                  title: 'Data Standards',
+                  path: 'v0.1/Data Standards'
+                },
+                {
+                  title: 'Code Directories',
+                  path: 'v0.1/Code Directories'
+                },
+              ]
+            },
             'PoCs'
           ]
         }

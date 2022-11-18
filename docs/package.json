@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vuepress dev . --no-cache",
     "build": "vuepress build .",
-    "build:api-doc": "widdershins --code true --summary true --search true --expandBody true --shallowSchemas false --omitHeader false ../api-definitions/pil_v0.1.yaml -o 'documentation/API Specification.md'",
+    "build:api-doc": "widdershins --code true --summary true --search true --expandBody true --shallowSchemas false --omitHeader true ../api-definitions/pil_v0.1.yaml -o 'documentation/API Specification.md'",
     "dep:check": "npx ncu -e 2",
     "dep:update": "npx ncu -u",
     "ci": "yarn install --frozen-lockfile"

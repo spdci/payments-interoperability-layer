@@ -1,4 +1,4 @@
-# Data Standards and Code Directories
+# Data Standards
 
 ## 1. IndividualPayeeCheck
 | Data Element # | Name of Data Element | Description of Data Element        | Data Format | Cardinality | Sample Data                       |   |   |   |   |

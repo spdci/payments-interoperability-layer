@@ -1,5 +1,9 @@
 # Sequence Diagrams
 
+::: warning
+**The following contents are for example. This page is under development**
+:::
+
 ## G2P payment through mojaloop switch
 
 @startuml

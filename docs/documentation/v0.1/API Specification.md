@@ -1,22 +1,3 @@
----
-title: API Specification - Payments Interoperability Layer v0.1
-language_tabs:
-  - shell: Shell
-  - http: HTTP
-  - javascript: JavaScript
-  - ruby: Ruby
-  - python: Python
-  - php: PHP
-  - java: Java
-  - go: Go
-toc_footers: []
-includes: []
-search: true
-highlight_theme: darkula
-headingLevel: 2
-
----
-
 <!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="api-specification-payments-interoperability-layer">API Specification - Payments Interoperability Layer v0.1</h1>

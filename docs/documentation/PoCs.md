@@ -1,5 +1,10 @@
 # PoCs
 This is a developer guide to building and deploying reports for the reporting REST service that is part of the deployment at the Hub.
+
+::: warning
+**The following contents are for example. This page is under development**
+:::
+
 ## G2P (Government to Person) payment through mojaloop switch
 
 This is to demo a G2P payment using the following components
