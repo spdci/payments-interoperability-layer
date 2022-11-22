@@ -1,101 +1,106 @@
 # Sequence Diagrams
 
 ::: warning
-**The following contents are for example. This page is under development**
+**Under Development**
 :::
 
 ## G2P payment through mojaloop switch
 
 @startuml
 
-'!include plantuml-ae.iuml
-
 skinparam sequenceArrowThickness 2
 skinparam roundcorner 20
 skinparam maxmessagesize 60
-
 
 skinparam ParticipantPadding 20
 skinparam BoxPadding 10
 skinparam SequenceBoxBackgroundColor AliceBlue
 skinparam ActorBorderColor    SaddleBrown
 
+participant "Social Protection Program" as SPP #white
+participant "Payment Interoperability Layer" as PIL #white
 
-actor User #SaddleBrown
-
-participant "RequestParser" as A #white
-participant "TaskBundler" as B #white
-
-box "Magic happens here"
-participant "TaskExecutor" as C << (C,#ADD1B2) Testable >>
+box "Payment Execution System"
+participant "Sender Bank" as PayerFSP
+participant "Mojaloop Switch" as ML #white
+participant "Receiver Bank" as PayeeFSP #white
 end box
+actor "John Doe" as User #SaddleBrown
 
-User -> A: DoWork
-activate A
+'User -> SPP: Registration
+activate SPP
 
-A -> B: Create Request
-activate B #violet
+SPP -> PIL: Disburse Money
+activate PIL #violet
 
-create C
-B -> C: DoWork
-activate C #PapayaWhip
-C --> B: WorkDone
-destroy C
+PIL -> PayerFSP: Bulk Transfer
+activate PayerFSP #PapayaWhip
 
-B --> A: Request Created
-deactivate B
+PayerFSP -> ML: Bulk Transfer
+ML -> PayeeFSP: Individual Transfers
 
-A --> User: Done
-deactivate A
+PayeeFSP --> ML: Transfer Response
+ML --> PayerFSP: Bulk Transfer Response
 
-'!include ../../plantuml-styles/ae-copyright-footer.txt
+PayerFSP --> PIL: Bulk Transfer Response
+deactivate PayerFSP
+
+PIL --> SPP: Money Disbursed
+deactivate PIL
+
+PayeeFSP --> User: Notification
+deactivate SPP
+
 @enduml
 
 <br/>
 
 ## Thridparty transfer in mojaloop out of a fhir invoice
 
-@startuml
 
-'!include plantuml-ae.iuml
+@startuml
 
 skinparam sequenceArrowThickness 2
 skinparam roundcorner 20
 skinparam maxmessagesize 60
-
 
 skinparam ParticipantPadding 20
 skinparam BoxPadding 10
 skinparam SequenceBoxBackgroundColor AliceBlue
 skinparam ActorBorderColor    SaddleBrown
 
+participant "Social Protection Program" as SPP #white
+participant "Payment Interoperability Layer" as PIL #white
 
-actor User #SaddleBrown
-
-participant "RequestParser" as A #white
-participant "TaskBundler" as B #white
-
-box "Magic happens here"
-participant "TaskExecutor" as C << (C,#ADD1B2) Testable >>
+box "Payment Execution System"
+participant "PISP (Payment Initiation Service Provider)" as PISP
+participant "Mojaloop Switch" as ML #white
+participant "Sender Bank" as PayerFSP
+participant "Receiver Bank" as PayeeFSP #white
 end box
+actor "John Doe" as User #SaddleBrown
 
-User -> A: DoWork
-activate A
+activate SPP
 
-A -> B: Create Request
-activate B #violet
+SPP -> PIL: Disburse Money
+activate PIL #violet
 
-create C
-B -> C: DoWork
-activate C #PapayaWhip
-C --> B: WorkDone
-destroy C
+PIL -> PISP: Payment Request
+PISP -> ML: Transfer Initiation Request
+ML -> PayerFSP: Transfer Initiation Request
 
-B --> A: Request Created
-deactivate B
+PayerFSP -> ML: Transfer Request
+ML -> PayeeFSP: Transfer Request
 
-A --> User: Done
-deactivate A
+PayeeFSP --> ML: Transfer Response
+PayeeFSP --> User: Notification
+ML --> PayerFSP: Transfer Response
 
-'!include ../../plantuml-styles/ae-copyright-footer.txt
+ML --> PISP: Transfer Response Notification
+
+PISP --> PIL: Payment Done
+PIL --> SPP: Money Disbursed
+deactivate PIL
+deactivate SPP
+
 @enduml
