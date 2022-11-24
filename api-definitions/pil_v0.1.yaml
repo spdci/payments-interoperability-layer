@@ -77,6 +77,9 @@ paths:
       operationId: Disbursement
       description: >-
         This request is used initiate a disbursement.
+        The response returned includes the status of the individual payment and the disbursementId.
+        The status of RECEIVED or PENDING indicates the request is being processed but is not yet COMPLETED.
+        If you receive the RECEIVED or PENDING status, you can use the GET call with disbursementId to poll the payment status until it transitions to COMPLETED or FAILED.
       requestBody:
         content:
           application/json:
@@ -515,10 +518,6 @@ components:
         - $ref: '#/components/schemas/IndividualPayee'
         - type: object
           properties:
-            isSuccess:
-              description: This field indicates wheter the transfer is success or failed.
-              type: boolean
-              example: true
             timestamp:
               description: The timestamp of the transfer fulfilment.
               type: string
