@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   title: API Specification - Payments Interoperability Layer
-  version: '0.1'
+  version: '0.1.0'
   description: >-
     An API to perform a disbursements through various payment execution systems
   license:

@@ -1,234 +1,182 @@
-# PoCs
-This is a developer guide to building and deploying reports for the reporting REST service that is part of the deployment at the Hub.
+# Proof of concept implementation
 
-::: warning
-**The following contents are for example. This page is under development**
-:::
+A proof of concept of the proposed Payment Building Block has been built. This proof of concept includes the following components:
 
-## G2P (Government to Person) payment through mojaloop switch
+1.  A demo user interface which simulates an SPP interacting with a Payments Interoperability Layer using a standard interface.
 
-This is to demo a G2P payment using the following components
-- DFSP payment manager
-- Mojaloop Testing Toolkit
+2.  A Payments Interoperability Layer which processes requests from the SPP and translates them into execution requests for two kinds of Payment Execution System:
 
-### Deployment Instructions
+    1.  A DFSP interface which executes the payment via a simulated FDSP attached to a Mojaloop system.
 
-- Clone this repository
-- Run all the services with docker-compose
-  ```
-  cd mojaloop-g2p-poc-demo
-  docker-compose up
-  ```
----
-That's it, all the services will be deployed.
+    2.  A 3PPI interface which provides direct access to a Mojaloop system.
 
-### Open the following web pages to monitor the transaction
-- Mojaloop Testing Toolkit Monitoring: Open the URL http://localhost:6060/admin/monitoring
+3.  A simulation of a user interface which shows a payment notification.
 
-### Open first payee mobile app simulator
-- Payee mobile app simulator: Open the URL http://localhost:6060/payeemobile
-- You should see the mobile app simulator with logo `Pink Bank`
-- Login with username '9876543210' and don't need password
-- Then you should see the message `Welcome Navya Agarwal`
-
-### Open second payee mobile app simulator in a separate browser tab / window
-- Payee mobile app simulator: Open the URL http://localhost:6061/payeemobile
-- You should see the mobile app simulator with logo `Green Bank`
-- Login with username '8765432101' and don't need password
-- Then you should see the message `Welcome Arjun Varma`
-
-### Executing disbursement
-- Execute the following HTTP request either from command line or from postman.
-  ```
-  curl --location --request POST 'http://localhost:3001/disbursement' --header 'Content-Type: application/json' --data-raw '{
-    "disbursementId": "f2957f7a-34c3-11ed-a261-0242ac120002",
-    "note": "PENSION",
-    "payeeList": [
-        {
-            "payeeIdType": "MSISDN",
-            "payeeIdValue": "9876543210",
-            "amount": 2000,
-            "currency": "INR"
-        },
-        {
-            "payeeIdType": "MSISDN",
-            "payeeIdValue": "8765432101",
-            "amount": 3000,
-            "currency": "INR"
-        }
-    ]
-  }'
-  ```
-- You should get the 'COMPLETED' status in the response.
-- You can check various requests and responses in TTK monitoring page
-- You should see the incoming notification in both payee mobile app simulators
+Schematic representations of the components of the two systems are shown below.
 
 
-## Thridparty transfer in mojaloop out of a fhir invoice
+## Payment via a DFSP interface
 
-This is to demo a third party transfer using the following components
-- OpenHIM
-- FHIR-Mojaloop OpenHIM Mediator
-- PISP payment manager
-- Mojaloop Testing Toolkit
+### Sequence Diagram
 
-### Technical Architecture
-![Technical Architecture Diagram](assets/images/fhir-invoice-pisp-poc.png)
+@startuml
 
-### Deployment Instructions
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
 
-- Clone this repository
-- Start OpenHIM
-  ```
-  cd openhim
-  docker-compose up
-  ```
-- Now, navigate to your web server and you should see the OpenHIM-console load (eg. `http://localhost:9080`) and login. The default username and password are:
-  - username: `root@openhim.org`
-  - password: `openhim-password`
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam SequenceBoxBackgroundColor AliceBlue
+skinparam ActorBorderColor    SaddleBrown
 
-  You will be prompted to change this. Change the password to `123456` to match the mediator configuration. If you want any other password, please change the mediator configuration too.
+participant "Social Protection Program" as SPP #white
+participant "Payment Interoperability Layer" as PIL #white
 
-  > **Note:** You will have problems logging in if your OpenHIM server is still setup to use a self-signed certificate (the default). To get around this you can use the following workaround (the proper way to solve this is to upload a proper certificate into the OpenHIM-core):
+box "Payment Execution System"
+participant "Sender Bank" as PayerFSP
+participant "Mojaloop Switch" as ML #white
+participant "Receiver Bank" as PayeeFSP #white
+end box
+actor "John Doe" as User #SaddleBrown
 
-  Visit the following link: `https://localhost:8080/authenticate/root@openhim.org` in Chrome. Make sure you are visiting this link from the system that is running the OpenHIM-core. Otherwise, replace `localhost` and `8080` with the appropriate OpenHIM-core server hostname and API port. You should see a message saying "**Your connection is not private**". Click "Advanced" and then click "Proceed". Once you have done this, you should see some JSON, you can ignore this and close the page. Ths will ignore the fact that the certificate is self-signed. Now, you should be able to go back to the Console login page and login. This problem will occur every now and then until you load a properly signed certificate into the OpenHIM-core server.
+'User -> SPP: Registration
+activate SPP
 
----
+SPP -> PIL: Disburse Money
+activate PIL #violet
 
-- Run fhir4-mojaloop openhim mediator (You need to have node version v16.14.2 installed)
-  ```
-  cd openhim/mediators/openhim-mediator-fhir-mojaloop-poc
-  npm run startDev
-  ```
-  Then you should see a log message in the console like "info: Successfully registered mediator!"
-- Run Third party SDK stack
-  ```
-  cd thirdparty-sdk
-  docker-compose up
-  ```
----
-That's it, all the services are deployed.
+PIL -> PayerFSP: Bulk Transaction
 
-### Configuring OpenHIM channel
-- Open openHIM console on 'http://localhost:9080' with username 'root@openhim.org' and password '123456' (As we changed to this in previous step)
-- Goto 'Mediators' and click on the entry 'openhim-mediator-fhir-mojaloop-poc'
-- Click on the green '+' icon there to create a channel. All the configuration for the channel is provided as default configuration in the mediator. So we don't need to change the channel configuration.
+PayerFSP -> ML: Party Lookups
+activate PayerFSP #PapayaWhip
+ML -> PayeeFSP: Party Lookup
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Party Information
+deactivate PayeeFSP
+ML --> PayerFSP: Parties Information
+deactivate PayerFSP
 
-### Have the following web pages ready to monitor the transaction
-- OpenHIM console: Login to the console and goto 'Transaction Log'
-- Run fhir4-mojaloop openhim mediator (You need to have node version v16.14.2 installed)
-- Payee mobile app simulator: Open the URL http://localhost:6060/payeemobile and login with username '987654321' and don't need password
-- Mojaloop Testing Toolkit Monitoring: Open the URL http://localhost:6060/admin/monitoring
 
-### Making a transfer and monitor the logs
-- Execute the following HTTP request either from command line or from postman.
-  ```
-  curl --location --request POST 'http://localhost:5001/fhir-mojaloop/sendmoney/fhir4-invoice' --header 'Content-Type: application/json' --data-raw '{
-  "resourceType": "Invoice",
-  "id": "b88e5a38-35ad-4d8c-aad3-44b4ace8c0b1",
-  "identifier": [
-      {
-          "type": {
-              "coding": [
-                  {
-                      "system": "https://openimis.github.io/openimis_fhir_r4_ig/CodeSystem/openimis-identifiers",
-                      "code": "UUID"
-                  }
-              ]
-          },
-          "value": "b88e5a38-35ad-4d8c-aad3-44b4ace8c0b1"
-      },
-      {
-          "type": {
-              "coding": [
-                  {
-                      "system": "https://openimis.github.io/openimis_fhir_r4_ig/CodeSystem/openimis-identifiers",
-                      "code": "Code"
-                  }
-              ]
-          },
-          "value": "IV-UC-8156989548-105"
-      }
-  ],
-  "status": "active",
-  "type": {
-      "coding": [
-          {
-              "system": "https://openimis.github.io/openimis_fhir_r4_ig/CodeSystem/bill-type",
-              "code": "policy",
-              "display": "Policy"
-          }
-      ]
-  },
-  "recipient": {
-      "reference": "Patient/D944AFE5-F1A9-45D1-BE82-7BE28719A7E1",
-      "type": "Patient",
-      "identifier": {
-          "type": {
-              "coding": [
-                  {
-                      "system": "https://openimis.github.io/openimis_fhir_r4_ig/CodeSystem/openimis-identifiers",
-                      "code": "UUID"
-                  }
-              ]
-          },
-          "value": "D944AFE5-F1A9-45D1-BE82-7BE28719A7E1"
-      }
-  },
-  "date": "2022-04-22",
-  "lineItem": [
-      {
-          "chargeItemCodeableConcept": {
-              "coding": [
-                  {
-                      "system": "https://openimis.github.io/openimis_fhir_r4_ig/CodeSystem/bill-charge-item",
-                      "code": "policy",
-                      "display": "Policy"
-                  }
-              ]
-          },
-          "priceComponent": [
-              {
-                  "extension": [
-                      {
-                          "url": "https://openimis.github.io/openimis_fhir_r4_ig//StructureDefinition/unit-price",
-                          "valueMoney": {
-                              "value": 2390.0,
-                              "currency": "USD"
-                          }
-                      }
-                  ],
-                  "type": "base",
-                  "code": {
-                      "coding": [
-                          {
-                              "system": "Code",
-                              "code": "Code",
-                              "display": "IV-UC-8156989548-105"
-                          }
-                      ]
-                  },
-                  "factor": 1.0,
-                  "amount": {
-                      "value": 2390.0,
-                      "currency": "USD"
-                  }
-              }
-          ]
-      }
-  ],
-  "totalNet": {
-      "value": 2390.0,
-      "currency": "USD"
-  },
-  "totalGross": {
-      "value": 2390.0,
-      "currency": "USD"
-  }
-}'
-  ```
-- You should get the 'Completed' status in the response and 'transactionRequestState' should be 'ACCEPTED' in the approveResponse body parameter.
-- Open openHIM console on 'http://localhost:9080' with username 'root@openhim.org' and password '123456' (As we changed to this in previous step)
-- Goto "Transaction Log" and you can find the transaction there.
-- You can check various requests and response in TTK UI http://localhost:6060
-- You should see the incoming notification in payee mobile app simulator
+PayerFSP -> ML: Bulk Quotes
+activate PayerFSP #PapayaWhip
+ML -> PayeeFSP: Bulk Quotes
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Bulk Quotes Response
+deactivate PayeeFSP
+ML -> PayerFSP: Bulk Quotes Response
+deactivate PayerFSP
+
+PayerFSP -> ML: Bulk Transfers
+activate PayerFSP #PapayaWhip
+ML -> PayeeFSP: Bulk Transfers
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Bulk Transfers Response
+deactivate PayeeFSP
+ML --> PayerFSP: Bulk Transfers Response
+deactivate PayerFSP
+
+PayerFSP --> PIL: Bulk Transaction Response
+'deactivate PayerFSP
+
+PIL --> SPP: Money Disbursed
+deactivate PIL
+
+PayeeFSP --> User: Notification
+deactivate SPP
+
+@enduml
+
+### Component Diagram
+
+![](media/f46f3a3b3e9a0b979b46219578e198df.png)
+
+## Payment via a 3PPI interface
+
+### Sequence Diagram
+
+@startuml
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam SequenceBoxBackgroundColor AliceBlue
+skinparam ActorBorderColor    SaddleBrown
+
+participant "Social Protection Program" as SPP #white
+participant "Payment Interoperability Layer" as PIL #white
+
+box "Payment Execution System"
+participant "PISP (Payment Initiation Service Provider)" as PISP
+participant "Mojaloop Switch" as ML #white
+participant "Sender Bank" as PayerFSP
+participant "Receiver Bank" as PayeeFSP #white
+end box
+actor "John Doe" as User #SaddleBrown
+
+activate SPP
+
+SPP -> PIL: Disburse Money
+activate PIL #violet
+PIL -> PISP: Payment Request
+
+PISP -> ML: Party Lookup
+activate PISP #PapayaWhip
+ML -> PayeeFSP: Party Lookup
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Party Information
+deactivate PayeeFSP
+ML --> PISP: Party Information
+deactivate PISP
+
+PISP -> ML: Third Party Transaction Request
+activate PISP #PapayaWhip
+ML -> PayerFSP: Third Party Transaction Request
+activate PayerFSP #PapayaWhip
+PayerFSP -> PayerFSP: Verify the consent
+PayerFSP --> ML: Third Party Transaction Response
+
+ML --> PISP: Third Party Transaction Response
+deactivate PISP
+
+PayerFSP -> ML: Quotes Request
+ML -> PayeeFSP: Quotes Request
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Quotes Response
+deactivate PayeeFSP
+ML --> PayerFSP: Quotes Response
+PayerFSP -> ML: Authorization Request
+deactivate PayerFSP
+ML -> PISP: Authorization Request
+activate PISP #PapayaWhip
+
+PISP -> ML: Approve Authorization
+ML -> PayerFSP: Approve Authorization
+activate PayerFSP #PapayaWhip
+PayerFSP -> PayerFSP: Verify Authorization
+
+PayerFSP -> ML: Transfer Request
+ML -> PayeeFSP: Transfer Request
+activate PayeeFSP #PapayaWhip
+PayeeFSP --> ML: Transfer Response
+PayeeFSP --> User: Notification
+deactivate PayeeFSP
+ML --> PayerFSP: Transfer Response
+PayerFSP --> ML: Third Party Transaction Response Notification
+deactivate PayerFSP
+ML --> PISP: Third Party Transaction Response Notification
+deactivate PISP
+
+PISP --> PIL: Payment Done
+PIL --> SPP: Money Disbursed
+deactivate PIL
+deactivate SPP
+
+@enduml
+
+### Component Diagram
+
+![](media/b50081798419cd85bc2fc90ba324cc77.png)

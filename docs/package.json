@@ -27,7 +27,7 @@
     "vuepress": "^1.8.2",
     "vuepress-plugin-global-variables": "^0.2.0",
     "vuepress-plugin-versioning": "^4.10.2",
-    "vuepress-theme-titanium": "^4.9.0",
-    "widdershins": "^4.0.1"
+    "vuepress-theme-openapi": "^1.6.0",
+    "vuepress-theme-titanium": "^4.9.0"
   }
 }

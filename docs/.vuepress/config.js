@@ -64,7 +64,8 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
 
-  theme: 'titanium',
+  // theme: 'titanium',
+  theme: 'openapi',
 
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
@@ -86,24 +87,36 @@ module.exports = {
           title: 'Documentation',
           collapsable: false,
           children: [
-            '',
-            'Architecture Diagrams',
+            {
+              title: 'Concept',
+              collapsable: false,
+              children: [
+                {
+                  title: 'Overview',
+                  path: 'concept/Overview'
+                },
+                {
+                  title: 'IndividualServices',
+                  path: 'concept/IndividualServices'
+                },
+              ]
+            },
             'Sequence Diagrams',
             { 
-              title: 'Version 0.1',
+              title: 'Version 0.1.0',
               collapsable: false,
               children: [
                 {
                   title: 'API Specification',
-                  path: 'v0.1/API Specification'
+                  path: 'v0_1_0/'
                 },
                 {
                   title: 'Data Standards',
-                  path: 'v0.1/Data Standards'
+                  path: 'v0_1_0/Data Standards'
                 },
                 {
                   title: 'Code Directories',
-                  path: 'v0.1/Code Directories'
+                  path: 'v0_1_0/Code Directories'
                 },
               ]
             },
