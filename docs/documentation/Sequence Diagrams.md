@@ -46,34 +46,22 @@ POST /disbursement
   "note": "Old Age Allowance",
   "payeeList": [
     {
-        "identifier": {
-            "payeeIdType": "NATIONAL_ID",
-            "payeeIdValue": "345678912"
-        },
-        "amount": {
-            "amount": 100,
-            "currency": "INR"
-        }
+        "payeeIdType": "NATIONAL_ID",
+        "payeeIdValue": "345678912",
+        "amount": 100,
+        "currency": "INR"
     },
     {
-        "identifier": {
-            "payeeIdType": "MOBILE",
-            "payeeIdValue": "9848123871"
-        },
-        "amount": {
-            "amount": 100,
-            "currency": "INR"
-        }
+        "payeeIdType": "MOBILE",
+        "payeeIdValue": "9848123871",
+        "amount": 100,
+        "currency": "INR"
     },
     {
-        "identifier": {
             "payeeIdType": "NATIONAL_ID",
-            "payeeIdValue": "6081571774"
-        },
-        "amount": {
+            "payeeIdValue": "6081571774",
             "amount": 100,
             "currency": "INR"
-        }
     }
   ]
 }
@@ -414,34 +402,22 @@ POST /disbursement
   "note": "Old Age Allowance",
   "payeeList": [
     {
-        "identifier": {
-            "payeeIdType": "NATIONAL_ID",
-            "payeeIdValue": "345678912"
-        },
-        "amount": {
-            "amount": 100,
-            "currency": "INR"
-        }
+        "payeeIdType": "NATIONAL_ID",
+        "payeeIdValue": "345678912",
+        "amount": 100,
+        "currency": "INR"
     },
     {
-        "identifier": {
-            "payeeIdType": "MOBILE",
-            "payeeIdValue": "9848123871"
-        },
-        "amount": {
-            "amount": 100,
-            "currency": "INR"
-        }
+        "payeeIdType": "MOBILE",
+        "payeeIdValue": "9848123871",
+        "amount": 100,
+        "currency": "INR"
     },
     {
-        "identifier": {
-            "payeeIdType": "NATIONAL_ID",
-            "payeeIdValue": "6081571774"
-        },
-        "amount": {
-            "amount": 100,
-            "currency": "INR"
-        }
+        "payeeIdType": "NATIONAL_ID",
+        "payeeIdValue": "6081571774",
+        "amount": 100,
+        "currency": "INR"
     }
   ]
 }
