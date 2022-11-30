@@ -27,40 +27,56 @@ actor "John Doe" as User #SaddleBrown
 activate SPP
 
 SPP -> PIL: Disburse Money
+note right of SPP: POST /disbursement
 activate PIL #violet
 
-PIL -> PayerFSP: Bulk Transaction
+loop For each beneficiary
+    PIL -> PayerFSP: Transfer Request
+    note right of PIL: POST /sendmoney
 
-PayerFSP -> ML: Party Lookups
-activate PayerFSP #PapayaWhip
-ML -> PayeeFSP: Party Lookup
-activate PayeeFSP #PapayaWhip
-PayeeFSP --> ML: Party Information
-deactivate PayeeFSP
-ML --> PayerFSP: Parties Information
-deactivate PayerFSP
+    PayerFSP -> ML: Party Lookup
+    note right of PayerFSP: GET /parties
+    activate PayerFSP #PapayaWhip
+    ML -> PayeeFSP: Party Lookup
+    note right of ML: GET /parties
+    activate PayeeFSP #PapayaWhip
+    PayeeFSP --> ML: Party Information
+    note left of PayeeFSP: PUT /parties
+    deactivate PayeeFSP
+    ML --> PayerFSP: Parties Information
+    note left of ML: PUT /parties
+    deactivate PayerFSP
 
 
-PayerFSP -> ML: Bulk Quotes
-activate PayerFSP #PapayaWhip
-ML -> PayeeFSP: Bulk Quotes
-activate PayeeFSP #PapayaWhip
-PayeeFSP --> ML: Bulk Quotes Response
-deactivate PayeeFSP
-ML -> PayerFSP: Bulk Quotes Response
-deactivate PayerFSP
+    PayerFSP -> ML: Bulk Quotes
+    note right of PayerFSP: POST /quotes
+    activate PayerFSP #PapayaWhip
+    ML -> PayeeFSP: Bulk Quotes
+    note right of ML: POST /quotes
+    activate PayeeFSP #PapayaWhip
+    PayeeFSP --> ML: Bulk Quotes Response
+    note left of PayeeFSP: PUT /quotes
+    deactivate PayeeFSP
+    ML -> PayerFSP: Bulk Quotes Response
+    note left of ML: PUT /quotes
+    deactivate PayerFSP
 
-PayerFSP -> ML: Bulk Transfers
-activate PayerFSP #PapayaWhip
-ML -> PayeeFSP: Bulk Transfers
-activate PayeeFSP #PapayaWhip
-PayeeFSP --> ML: Bulk Transfers Response
-deactivate PayeeFSP
-ML --> PayerFSP: Bulk Transfers Response
-deactivate PayerFSP
+    PayerFSP -> ML: Bulk Transfers
+    note right of PayerFSP: POST /transfers
+    activate PayerFSP #PapayaWhip
+    ML -> PayeeFSP: Bulk Transfers
+    note right of ML: POST /transfers
+    activate PayeeFSP #PapayaWhip
+    PayeeFSP --> ML: Bulk Transfers Response
+    note left of PayeeFSP: PUT /transfers
+    deactivate PayeeFSP
+    ML --> PayerFSP: Bulk Transfers Response
+    note left of ML: PUT /transfers
+    deactivate PayerFSP
 
-PayerFSP --> PIL: Bulk Transaction Response
-'deactivate PayerFSP
+    PayerFSP --> PIL: Transfer Response
+    'deactivate PayerFSP
+end loop
 
 PIL --> SPP: Money Disbursed
 deactivate PIL
