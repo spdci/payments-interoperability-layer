@@ -1,5 +1,23 @@
 # Payment via a DFSP interface
 
+This is PoC for a G2P payment using a sample implementation of `Payments Interoperability Layer`.
+The Payments Interoperability Layer in this PoC takes API requests from Social Protection Program (SPP) and executes a transfer through a mojaloop payments switch.
+
+The demo uses the following components
+- SPP Demo UI - A sample demo UI developed simulating a `Social Protection Program`
+- Payment Interoperablity Layer - A sample implementation of `Payments Interoperability Layer` with direct FSP connectivity.
+- Mojaloop Payment Manager - As a sender FSP implementation
+- Mojaloop Testing Toolkit - Simulates the Mojaloop switch and receiver FSP
+- Mojaloop Testing Toolkit Mobile Application Simuators - To get the notifications of the inbound payments to beneficiaries.
+
+## Use Case Diagram
+
+![G2P Use Case Diagram](/payments-interoperability-layer/assets/g2p-usecase.svg)
+
+## Component Diagram
+
+![G2P Component Diagram](/payments-interoperability-layer/assets/mojaloop-g2p-poc.drawio.svg)
+
 ## Sequence Diagram
 
 @startuml
@@ -86,9 +104,6 @@ deactivate SPP
 
 @enduml
 
-## Component Diagram
-
-![G2P Component Diagram](/payments-interoperability-layer/assets/mojaloop-g2p-poc.drawio.svg)
 
 ## Demo Video
 <iframe width="560" height="315" src="https://www.youtube.com/embed/04xuvcd6-ak?start=1740" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

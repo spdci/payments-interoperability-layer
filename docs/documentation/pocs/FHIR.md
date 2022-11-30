@@ -1,5 +1,21 @@
 # Payment via a 3PPI interface
 
+This is PoC for a 3PPI payment using a sample implementation of `Payments Interoperability Layer`.
+The OpenHIM service in this PoC takes FHIR invoice from any management information system like openIMIS and executes a transfer through a mojaloop payments switch using Payments Interoperability Layer.
+
+The demo uses the following components
+- Postman - A http client for sending FHIR invoice to openHIM
+- OpenHIM - A middleware component to ease interoperability between different systems.
+- OpenHIM Mediator - To be used with openHIM service which converts FHIR invoice to standard `Payments Interoperability Layer` payement request format.
+- Payment Interoperablity Layer - A sample implementation of `Payments Interoperability Layer` with third party mojaloop connectivity
+- Mojaloop Payment Manager - As a PISP (Payment Initiation Service Provider) implementation
+- Mojaloop Testing Toolkit - Simulates the Mojaloop switch and receiver FSP
+- Mojaloop Testing Toolkit Mobile Application Simuators - To get the notifications of the inbound payments to beneficiaries.
+
+## Component Diagram
+
+![FHIR PoC Component Diagram](/payments-interoperability-layer/assets/fhir-invoice-pisp-poc.drawio.svg)
+
 ## Sequence Diagram
 
 @startuml
@@ -110,7 +126,3 @@ deactivate PIL
 deactivate SPP
 
 @enduml
-
-## Component Diagram
-
-![FHIR PoC Component Diagram](/payments-interoperability-layer/assets/fhir-invoice-pisp-poc.drawio.svg)

@@ -12,4 +12,4 @@ A proof of concept of the proposed Payments Interoperability Layer has been buil
 
 3.  A simulation of a user interface which shows a payment notification.
 
-Schematic representations of the components of the two systems are shown below.
+Schematic representations of the components of the two systems are shown in the following pages.

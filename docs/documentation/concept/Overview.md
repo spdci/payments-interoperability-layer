@@ -41,9 +41,8 @@ The Payments Interoperability Layer provides a public interface which is intende
 
 The overall architecture of the Payments Interoperability Layer is as follows:
 
-![Graphical user interface Description automatically generated](media/8a7145baca2bef1b0f47e7b78dc045bb.jpg)
+![Architecture Diagram](/payments-interoperability-layer/assets/concept-overview-architecture.drawio.svg)
 
 The next sections describe the operation of individual services in the Payments Interoperability Layer.
 
 
-![Proposed Architecture Diagram](../../../assets/images/architecture-diagram.png)

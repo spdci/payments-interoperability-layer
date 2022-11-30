@@ -37,7 +37,7 @@ By default, each SPP will set up and maintain its own synonym service. However, 
 
 The following diagram shows the architectural schema of the synonym service.
 
-![Diagram Description automatically generated](media/04d9b5f7728d8b421f2786f333d2874d.jpg)
+![Synonym Service](/payments-interoperability-layer/assets/concept-synonym-service.drawio.svg)
 
 ## Account identification
 
@@ -71,7 +71,7 @@ The account identification service allows an SPP to submit a list of beneficiari
 
 The diagram below shows the architecture of the account identification service:
 
-![Diagram Description automatically generated](media/5e11786967ec11807ae9a93959b37622.jpg)
+![Identifier Service](/payments-interoperability-layer/assets/concept-identifier-service.drawio.svg)
 
 ## Payability service
 
@@ -107,7 +107,7 @@ The payability service goes beyond the account identification service. It answer
 
 The diagram below shows the architecture of the payability service:
 
-![Diagram Architecture of the payability service](media/8f29a58e907f89d3e99772729a649a6d.jpg)
+![Payability Service](/payments-interoperability-layer/assets/concept-payability-service.drawio.svg)
 
 ## Payment Execution Service
 
@@ -169,7 +169,7 @@ The payment execution service works in the following way:
 
 The diagram below shows the architecture of the payment execution service:
 
-![Diagram Description automatically generated](media/cd1e9fd153fe7518a352fc4a0a37f2bb.jpg)
+![Payment Execution Service](/payments-interoperability-layer/assets/concept-payment-execution-service.drawio.svg)
 
 ## Inbound payment service
 
@@ -201,31 +201,4 @@ The inbound payment service allows an SPP to make a manual query for information
 
 The diagram below shows the architecture of the inbound payments service:
 
-![Diagram Description automatically generated](media/52b7237a4ed4aa5d8a01cdcef50fe0f6.jpg)
-
-Proof of concept implementation
-===============================
-
-A proof of concept of the proposed Payments Interoperability Layer has been built. This proof of concept includes the following components:
-
-1.  A demo user interface which simulates an SPP interacting with a Payments Interoperability Layer using a standard interface.
-
-1.  A Payments Interoperability Layer which processes requests from the SPP and translates them into execution requests for two kinds of Payment Execution System:
-
-    1.  A DFSP interface which executes the payment via a simulated FDSP attached to a Mojaloop system.
-
-    2.  A 3PPI interface which provides direct access to a Mojaloop system.
-
-2.  A simulation of a user interface which shows a payment notification.
-
-Schematic representations of the components of the two systems are shown below.
-
-Payment via a DFSP interface
-----------------------------
-
-![](media/f46f3a3b3e9a0b979b46219578e198df.png)
-
-Payment via a 3PPI interface
-----------------------------
-
-![](media/b50081798419cd85bc2fc90ba324cc77.png)
+![Inbound Payment Service](/payments-interoperability-layer/assets/concept-inbound-payment-service.drawio.svg)
