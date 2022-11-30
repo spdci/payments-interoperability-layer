@@ -86,4 +86,4 @@ deactivate SPP
 
 ## Component Diagram
 
-![FHIR PoC Component Diagram](/assets/fhir-invoice-pisp-poc.drawio.svg)
+![FHIR PoC Component Diagram](/payments-interoperability-layer/assets/fhir-invoice-pisp-poc.drawio.svg)

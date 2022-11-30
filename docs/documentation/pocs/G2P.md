@@ -72,7 +72,7 @@ deactivate SPP
 
 ## Component Diagram
 
-![G2P Component Diagram](/assets/mojaloop-g2p-poc.drawio.svg)
+![G2P Component Diagram](/payments-interoperability-layer/assets/mojaloop-g2p-poc.drawio.svg)
 
 ## Demo Video
 <iframe width="560" height="315" src="https://www.youtube.com/embed/04xuvcd6-ak?start=1740" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
