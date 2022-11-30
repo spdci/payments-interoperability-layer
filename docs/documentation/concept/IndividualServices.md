@@ -5,7 +5,7 @@ This section describes the function of individual service resources in the Payme
 
 ## The synonym service.
 
-The synonym service allows an SPP to associate an identifier which it uses to identify a beneficiary (or a payer in the case of inbound payments) with an identifier that is recognised by the PESs deployed in the jurisdiction. Some PESs required particular kinds of identifier (for instance, a Mobile Money service may require a mobile phone number as an identifier,) and this may be different from the identification that an SPP habitually uses: for instance, the SPP may want to identify all its beneficiaries by their National ID number. The synonym service allows the SPP to create an association, for example between the National ID and the mobile phone number, such that the SPP can continue to identify its beneficiaries by their National IDs, and these will be substituted where appropriate by the PBB so that payments can be executed by the target PES.
+The synonym service allows an SPP to associate an identifier which it uses to identify a beneficiary (or a payer in the case of inbound payments) with an identifier that is recognised by the PESs deployed in the jurisdiction. Some PESs required particular kinds of identifier (for instance, a Mobile Money service may require a mobile phone number as an identifier,) and this may be different from the identification that an SPP habitually uses: for instance, the SPP may want to identify all its beneficiaries by their National ID number. The synonym service allows the SPP to create an association, for example between the National ID and the mobile phone number, such that the SPP can continue to identify its beneficiaries by their National IDs, and these will be substituted where appropriate by the Payments Interoperability Layer so that payments can be executed by the target PES.
 
 The synonym service has three sub-resources, as described below.
 
@@ -27,13 +27,13 @@ The synonym substitution service allows internal components of the Payments Inte
 
 The synonym reporting service allows an SPP to report on a set of synonyms. The SPP can submit a list of input values, and the synonym reporting service will return any synonyms which are associated with the input values. Alternatively, the SPP can request a report for all synonyms.
 
-### PBB configuration
+### Payments Interoperability Layer configuration
 
-The following configuration items can be set at the PBB level for different implementations.
+The following configuration items can be set at the Payments Interoperability Layer level for different implementations.
 
 #### Synonym sharing
 
-By default, each SPP will set up and maintain its own synonym service. However, a PBB can be set up to allow more than one SPP to share the same synonym set.
+By default, each SPP will set up and maintain its own synonym service. However, a Payments Interoperability Layer can be set up to allow more than one SPP to share the same synonym set.
 
 The following diagram shows the architectural schema of the synonym service.
 
@@ -59,7 +59,7 @@ The account identification service allows an SPP to submit a list of beneficiari
 
 4.  If there are any entries in the beneficiary list which do not have entries in the identifier cache, then the account identification service will attempt to find a reachable account which is associated with each entry. This process is as follows:
 
-    1.  Send a request to each of the directory service adapters which are attached to the PBB asking for a resolution of the identifier(s) associated with the entry.
+    1.  Send a request to each of the directory service adapters which are attached to the Payments Interoperability Layer asking for a resolution of the identifier(s) associated with the entry.
 
     2.  Wait for a response from the directory service adapter(s).
 
@@ -75,7 +75,7 @@ The diagram below shows the architecture of the account identification service:
 
 ## Payability service
 
-The payability service goes beyond the account identification service. It answers the question: is it possible to transfer a given amount into each beneficiary’s account? This question needs to be asked because, even in situations where a beneficiary is verified as having an account, transferring a given sum of money into that account may not be possible – for instance, because of KYC regulations, account suspension or other reasons. The payability service therefore interrogates the payment execution services deployed in the jurisdiction directly to obtain an answer to this question, whereas the account identification service interrogates directory services. Although in many jurisdictions the PES also provides the directory services, there are also independent directory services which record the DFSP which holds an account for a given identifier; and the PBB therefore distinguishes between the two types of question. The payability service works in the following way:
+The payability service goes beyond the account identification service. It answers the question: is it possible to transfer a given amount into each beneficiary’s account? This question needs to be asked because, even in situations where a beneficiary is verified as having an account, transferring a given sum of money into that account may not be possible – for instance, because of KYC regulations, account suspension or other reasons. The payability service therefore interrogates the payment execution services deployed in the jurisdiction directly to obtain an answer to this question, whereas the account identification service interrogates directory services. Although in many jurisdictions the PES also provides the directory services, there are also independent directory services which record the DFSP which holds an account for a given identifier; and the Payments Interoperability Layer therefore distinguishes between the two types of question. The payability service works in the following way:
 
 1.  The SPP submits a list of beneficiaries, and the amounts which are to be paid to each, to the payability API. A beneficiary list has a header which will support the following options:
 
@@ -129,15 +129,15 @@ For instance:
 
 All of these differences are managed by different Payment Execution Service adapters. A PES adapter consumes payment instructions in a standard format, and converts them into a form which can be understood by the target PES. The principle is that difference between PESs should be encapsulated at the lowest possible level, so that standard operations such as the quality control and decomposition of payment lists can be performed in a single standard way.
 
-It is, of course, possible that a given jurisdiction might only have a single PES. For instance, in Tanzania all account-holding institutions will be connected to the Tanzania Instant Payments System (TIPS). In this case, the architecture of the payment execution service continues to be the same, but there will be a reduced number of payment adapters, one for each of the external interfaces of the banks which may hold SPP debit accounts. If TIPS subsequently implements a 3PPI interface, then there will only be a single adapter, which will allow SPPs to debit accounts at any account-holding institution using the same interface. All of this will, however, be managed within the PBB. Individual SPPs will not need to make any changes to their applications to reflect this change.
+It is, of course, possible that a given jurisdiction might only have a single PES. For instance, in Tanzania all account-holding institutions will be connected to the Tanzania Instant Payments System (TIPS). In this case, the architecture of the payment execution service continues to be the same, but there will be a reduced number of payment adapters, one for each of the external interfaces of the banks which may hold SPP debit accounts. If TIPS subsequently implements a 3PPI interface, then there will only be a single adapter, which will allow SPPs to debit accounts at any account-holding institution using the same interface. All of this will, however, be managed within the Payments Interoperability Layer. Individual SPPs will not need to make any changes to their applications to reflect this change.
 
 ### External approvals
 
-In some jurisdictions, SPPs will need to obtain external approval, for instance from the Finance Ministry or the Treasury, before they are allowed to execute a payment. The PBB supports this requirement via a separate adapter, which can be configured to interact with the approval process implemented in a given jurisdiction. The particular form of the approval process – for instance, the implementation of maker/checker and escalation processes – is defined as outside the scope of the PBB, although implementers in a given jurisdiction may need to build parts of this process as part of their PBB implementation.
+In some jurisdictions, SPPs will need to obtain external approval, for instance from the Finance Ministry or the Treasury, before they are allowed to execute a payment. The Payments Interoperability Layer supports this requirement via a separate adapter, which can be configured to interact with the approval process implemented in a given jurisdiction. The particular form of the approval process – for instance, the implementation of maker/checker and escalation processes – is defined as outside the scope of the Payments Interoperability Layer, although implementers in a given jurisdiction may need to build parts of this process as part of their Payments Interoperability Layer implementation.
 
 ### Unbanked services
 
-An important characteristic of a PBB is that it should be able to make payments to all the beneficiaries of a given SPP, whether or not the beneficiary has a reachable account into which the benefit can be paid. Almost all PBBs will therefore require some means of making payments to beneficiaries who do not possess reachable accounts. These methods may be very different from each other, depending on the coverage of the PESs in the jurisdiction. In some jurisdictions, it may be necessary for the government to deliver cash; in others, vouchers may be used; some jurisdictions may wish to use PES-specific vouchers, whereas others may want to issue vouchers which may be redeemed via any PES, and so on. Because of the variety of solutions which may be required, the PBB will support one or more adapters to manage payments to unbanked participants. In a pattern analogous to that used for the PES adapters, an unbanked adapter will manage disbursements to unbanked beneficiaries and, if required, mange the redemption of those disbursements: for instance, by moving funds to a particular PES to support its disbursement of cash to the holder of a voucher.
+An important characteristic of a Payments Interoperability Layer is that it should be able to make payments to all the beneficiaries of a given SPP, whether or not the beneficiary has a reachable account into which the benefit can be paid. Almost all Payments Interoperability Layers will therefore require some means of making payments to beneficiaries who do not possess reachable accounts. These methods may be very different from each other, depending on the coverage of the PESs in the jurisdiction. In some jurisdictions, it may be necessary for the government to deliver cash; in others, vouchers may be used; some jurisdictions may wish to use PES-specific vouchers, whereas others may want to issue vouchers which may be redeemed via any PES, and so on. Because of the variety of solutions which may be required, the Payments Interoperability Layer will support one or more adapters to manage payments to unbanked participants. In a pattern analogous to that used for the PES adapters, an unbanked adapter will manage disbursements to unbanked beneficiaries and, if required, mange the redemption of those disbursements: for instance, by moving funds to a particular PES to support its disbursement of cash to the holder of a voucher.
 
 The payment execution service works in the following way:
 
@@ -173,15 +173,15 @@ The diagram below shows the architecture of the payment execution service:
 
 ## Inbound payment service
 
-As well as making disbursements, SPPs may need to collect information about payments which are made to them by individuals or organisations: for instance, school fees to a subsidised national educational system, or subscriptions to a health or dental plan. In these cases, the funds will already have been transferred to a government account; the function of the PBB is to record these payments in a form which will enable the SPP to record that a payment has been made and to credit the payment to the customer’s account with the SPP.
+As well as making disbursements, SPPs may need to collect information about payments which are made to them by individuals or organisations: for instance, school fees to a subsidised national educational system, or subscriptions to a health or dental plan. In these cases, the funds will already have been transferred to a government account; the function of the Payments Interoperability Layer is to record these payments in a form which will enable the SPP to record that a payment has been made and to credit the payment to the customer’s account with the SPP.
 
-The inbound payment service also makes use of adapters; but in this case the adapters allow the PBB to receive information about credits to one or more accounts in an account-holding institution. Each account-holding institution is likely to have its own way of providing this information: some institutions may require a requester to make regular specific requests for information, while others may provide a publication/subscription interface which allows a requester to obtain notifications whenever there is a change to the underlying account. The adapter shields this differentiation from the PBB. The agreements between the PBB and individual account-holding institutions which give the PBB permission to be notified of changes in an underlying account (these are normally known as AISP agreements) are outside the scope of the PBB and are assumed to have been concluded as part of PBB set-up.
+The inbound payment service also makes use of adapters; but in this case the adapters allow the Payments Interoperability Layer to receive information about credits to one or more accounts in an account-holding institution. Each account-holding institution is likely to have its own way of providing this information: some institutions may require a requester to make regular specific requests for information, while others may provide a publication/subscription interface which allows a requester to obtain notifications whenever there is a change to the underlying account. The adapter shields this differentiation from the Payments Interoperability Layer. The agreements between the Payments Interoperability Layer and individual account-holding institutions which give the Payments Interoperability Layer permission to be notified of changes in an underlying account (these are normally known as AISP agreements) are outside the scope of the Payments Interoperability Layer and are assumed to have been concluded as part of Payments Interoperability Layer set-up.
 
 The inbound payment service has the following resources.
 
 ### Register inbound account
 
-This interface enables an SPP to register an account which it wishes to monitor for credits. This will be the account into which the SPP directs subscribers to pay their deposits. The SPP will give an account number, and select the identifier of an account-holding institution. The inbound payment service will check that the account can reach the account specified, and that the PBB has permission for an AISP relationship with the account. If these checks succeed, then the relationship will be set up and the information passed to an account listener. The account listener will route the request to the appropriate account information service adapter.
+This interface enables an SPP to register an account which it wishes to monitor for credits. This will be the account into which the SPP directs subscribers to pay their deposits. The SPP will give an account number, and select the identifier of an account-holding institution. The inbound payment service will check that the account can reach the account specified, and that the Payments Interoperability Layer has permission for an AISP relationship with the account. If these checks succeed, then the relationship will be set up and the information passed to an account listener. The account listener will route the request to the appropriate account information service adapter.
 
 ### Listen for account movements
 
@@ -206,7 +206,7 @@ The diagram below shows the architecture of the inbound payments service:
 Proof of concept implementation
 ===============================
 
-A proof of concept of the proposed Payment Building Block has been built. This proof of concept includes the following components:
+A proof of concept of the proposed Payments Interoperability Layer has been built. This proof of concept includes the following components:
 
 1.  A demo user interface which simulates an SPP interacting with a Payments Interoperability Layer using a standard interface.
 

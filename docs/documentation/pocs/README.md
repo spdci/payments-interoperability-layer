@@ -1,6 +1,6 @@
 # Proof of concept implementation
 
-A proof of concept of the proposed Payment Building Block has been built. This proof of concept includes the following components:
+A proof of concept of the proposed Payments Interoperability Layer has been built. This proof of concept includes the following components:
 
 1.  A demo user interface which simulates an SPP interacting with a Payments Interoperability Layer using a standard interface.
 
