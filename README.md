@@ -1,15 +1,38 @@
 # Payments Interoperability Layer
 Payments Interoperability Layer to interact with Payment Execution Systems
 
-## Proposed Architecture
-![Proposed Architecture Diagram](assets/images/architecture-diagram.png)
+## Documentation
+The documentation is generated with `vuepress` framework and hosted by `git pages`
 
-## Levels of API
+[Click Here](https://sp-convergence.github.io/payments-interoperability-layer/) for the hosted documentation.
 
-- Social Protection Programs call an API to perform actions related to payments.
-- Payments Interoperability Layer calls API(s) to interact with Payment Execution Systems
-  - APIs defined by Financial Institutions
-  - APIs defined by payment switches which support Third Party Payment Initiation.
-    - These are discussed with Open Banking initiatives.
-- If there is a payments switch in place, Financial Institutions call its API to route payments between them.
-  - These APIs are not used by the Payments Interoperability Layer. We therefore exclude them from this discussion.
+----
+
+### Contribution Guide
+If you want to contribute to the documentation, please follow the below steps for setting up your local development environment
+
+- Clone the repository
+  ```
+  git clone https://github.com/sp-convergence/payments-interoperability-layer.git
+  ```
+- Setup nvm and node
+  ```
+  cd docs
+  nvm use
+  ```
+- Install dependencies
+  ```
+  npm install
+  ```
+- Start the development server
+  ```
+  npm run dev
+  ```
+
+Now, you should be able to open the webpage at `http://localhost:8080`
+
+Every change you do in the `docs` folder should be reflected in the webpage immediately.
+
+After you are done with the changes, you can rise a `Pull Request` to master branch and get it approved.
+
+Once your changes are merged to `master` branch, the CICD (git actions) should publish the updated documentation.

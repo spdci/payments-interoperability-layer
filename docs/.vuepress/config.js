@@ -120,7 +120,24 @@ module.exports = {
                 },
               ]
             },
-            'PoCs'
+            { 
+              title: 'Proof of concept implementation',
+              collapsable: false,
+              children: [
+                {
+                  title: 'PoC Overview',
+                  path: 'pocs/'
+                },
+                {
+                  title: 'Payment via a DFSP interface',
+                  path: 'pocs/G2P'
+                },
+                {
+                  title: 'Payment via a 3PPI interface',
+                  path: 'pocs/FHIR'
+                },
+              ]
+            },
           ]
         }
       ],
