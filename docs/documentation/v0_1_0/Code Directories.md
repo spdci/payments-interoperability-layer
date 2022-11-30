@@ -1,6 +1,6 @@
 # Code Directories
 
-## Currency - CD001
+## Currency - CD001 [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html)
 | Currency Numeric Code | Currency Code | Currency Name                                                     | Country                                                    | Minor Unit |
 |-----------------------|---------------|-------------------------------------------------------------------|------------------------------------------------------------|------------|
 | 971                   | AFN           | Afghani                                                           | AFGHANISTAN                                                | 2          |
@@ -282,7 +282,7 @@
 | 962                   | XPT           | Platinum                                                          | ZZ10_Platinum                                              | N.A.       |
 | 961                   | XAG           | Silver                                                            | ZZ11_Silver                                                | N.A.       |
 
-## Transfer Status - CD002
+## Transfer Status - CD002 [FSPIOP V1.1](https://docs.mojaloop.io/api/fspiop/v1.1/api-definition.html#table-109)
 
 | SN | Status Code | Currency Name                                                                                      |
 |----|-------------|----------------------------------------------------------------------------------------------------|
@@ -290,4 +290,3 @@
 | 2  | PENDING     | Payments Interoperability Layer has validated the transfer.                                        |
 | 3  | COMPLETED   | Payments Interoperability Layer has successfully performed the transfer.                           |
 | 4  | REJECTED    | Payments Interoperability Layer has rejected the transfer.                                         |
-| 5  | ABORTED     | Payments Interoperability Layer has aborted the transfer due to a failure to perform the transfer. |
