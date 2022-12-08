@@ -12,6 +12,8 @@ The demo uses the following components
 - Mojaloop Testing Toolkit - Simulates the Mojaloop switch and receiver FSP
 - Mojaloop Testing Toolkit Mobile Application Simuators - To get the notifications of the inbound payments to beneficiaries.
 
+The code is available [here](https://github.com/sp-convergence/mojaloop-openhim-fhir-poc)
+
 ## Component Diagram
 
 ![FHIR PoC Component Diagram](/payments-interoperability-layer/assets/fhir-invoice-pisp-poc.drawio.svg)

@@ -10,6 +10,8 @@ The demo uses the following components
 - Mojaloop Testing Toolkit - Simulates the Mojaloop switch and receiver FSP
 - Mojaloop Testing Toolkit Mobile Application Simuators - To get the notifications of the inbound payments to beneficiaries.
 
+The code is available [here](https://github.com/sp-convergence/mojaloop-g2p-poc-demo)
+
 ## Use Case Diagram
 
 ![G2P Use Case Diagram](/payments-interoperability-layer/assets/g2p-usecase.svg)
